@@ -3,380 +3,191 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quizlet Replica</title>
-    <style>
-      /* Basic Reset & Global Styles */
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+    <title>Quizlet Replica - Tailwind</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              quizletBlue: "#4257b2",
+              quizletDarkText: "#303545",
+              quizletLightBg: "#f6f7fb",
+              quizletYellow: "#ffcd1f",
+              quizletDarkYellow: "#f2c00e",
+              quizletBorder: "#d9dde8",
+              quizletGrayText: "#586380",
+              quizletFooterBg: "#303545",
+              quizletFooterText: "#d9dde8",
+              quizletFooterHover: "#fff",
+              quizletFooterBorder: "#4a5066",
+              quizletFooterMuted: "#a9b3d0",
+              quizletGradientStart: "#646ff0",
+            },
+            fontFamily: {
+              sans: [
+                "Poppins",
+                "Helvetica Neue",
+                "Helvetica",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+          },
+        },
       }
-
-      body {
-        font-family: "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif; /* Using Poppins like Quizlet */
-        line-height: 1.6;
-        color: #303545; /* Quizlet Dark Text */
-        background-color: #f6f7fb; /* Light background */
-      }
-
-      .container {
-        max-width: 1100px; /* Adjusted width */
-        margin: 0 auto;
-        padding: 0 15px;
-      }
-
-      a {
-        text-decoration: none;
-        color: #4257b2; /* Quizlet Blue */
-      }
-
-      button {
-        font-family: inherit;
-        cursor: pointer;
-        border-radius: 4px;
-        font-weight: 600;
-        transition: background-color 0.2s ease, color 0.2s ease,
-          border-color 0.2s ease;
-      }
-
-      /* Header Styles */
-      header {
-        background-color: #fff;
-        padding: 12px 0;
-        border-bottom: 1px solid #e0e0e0;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-      }
-
-      nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .nav-left {
-        display: flex;
-        align-items: center;
-      }
-
-      .logo {
-        font-size: 1.8em;
-        font-weight: 700;
-        color: #4257b2; /* Quizlet Blue */
-        margin-right: 30px;
-        /* Add Quizlet SVG logo here if possible, otherwise text */
-      }
-
-      .nav-links a {
-        margin-right: 25px;
-        color: #303545;
-        font-weight: 500;
-        padding-bottom: 5px; /* Space for potential hover effect */
-        border-bottom: 2px solid transparent;
-        transition: color 0.2s ease, border-color 0.2s ease;
-      }
-      .nav-links a:hover {
-        color: #4257b2;
-        border-bottom-color: #4257b2;
-      }
-
-      .auth-buttons button {
-        margin-left: 12px;
-        padding: 9px 18px;
-        font-size: 0.95em;
-        border: 1px solid;
-      }
-
-      .login-btn {
-        background-color: #fff;
-        color: #4257b2;
-        border-color: #d9dde8;
-      }
-      .login-btn:hover {
-        background-color: #f6f7fb;
-      }
-
-      .signup-btn {
-        background-color: #ffcd1f; /* Quizlet Yellow */
-        color: #1a1a1a; /* Darker text on yellow */
-        border-color: #ffcd1f;
-      }
-      .signup-btn:hover {
-        background-color: #f2c00e;
-        border-color: #f2c00e;
-      }
-
-      /* Hero Section Styles */
-      .hero {
-        padding: 80px 0 100px;
-        text-align: center;
-        background: linear-gradient(
-          135deg,
-          #646ff0 0%,
-          #4257b2 100%
-        ); /* Gradient background */
-        color: #fff;
-      }
-
-      .hero h1 {
-        font-size: 3.5em; /* Larger font */
-        font-weight: 700;
-        margin-bottom: 25px;
-        line-height: 1.2;
-      }
-
-      .hero p {
-        font-size: 1.3em;
-        margin-bottom: 40px;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        opacity: 0.9;
-      }
-
-      .hero button {
-        background-color: #ffcd1f; /* Quizlet Yellow */
-        color: #1a1a1a;
-        padding: 15px 35px;
-        font-size: 1.2em;
-        border: none;
-        border-radius: 4px;
-        font-weight: 600;
-      }
-      .hero button:hover {
-        background-color: #f2c00e;
-      }
-
-      /* Added Feature Section Styles */
-      .new-feature {
-        padding: 70px 0;
-        background-color: #fff; /* White background for contrast */
-        text-align: center;
-        border-bottom: 1px solid #e0e0e0;
-      }
-
-      .new-feature h2 {
-        font-size: 2.5em;
-        margin-bottom: 25px;
-        color: #303545;
-      }
-      .new-feature h2 .highlight {
-        background: linear-gradient(
-          to top,
-          #ffda5b 50%,
-          transparent 50%
-        ); /* Yellow highlight effect */
-        padding: 0 5px;
-      }
-
-      .new-feature p {
-        font-size: 1.15em;
-        margin-bottom: 35px;
-        max-width: 650px;
-        margin-left: auto;
-        margin-right: auto;
-        color: #586380;
-      }
-
-      .new-feature button {
-        background-color: #4257b2; /* Quizlet Blue */
-        color: white;
-        padding: 12px 28px;
-        font-size: 1.1em;
-        border: none;
-      }
-      .new-feature button:hover {
-        background-color: #3a4ba0;
-      }
-
-      /* How it Works Section Styles */
-      .how-it-works {
-        padding: 70px 0;
-        background-color: #f6f7fb;
-        text-align: center;
-      }
-      .how-it-works h2 {
-        font-size: 2.5em;
-        margin-bottom: 50px;
-        color: #303545;
-      }
-      .steps-container {
-        display: flex;
-        justify-content: space-around;
-        align-items: flex-start;
-        gap: 30px;
-        max-width: 900px;
-        margin: 0 auto;
-      }
-      .step {
-        flex: 1;
-        max-width: 250px;
-      }
-      .step-icon {
-        font-size: 2.5em; /* Placeholder for actual icons */
-        margin-bottom: 15px;
-        color: #4257b2;
-      }
-      .step h3 {
-        font-size: 1.3em;
-        margin-bottom: 10px;
-        color: #303545;
-      }
-      .step p {
-        color: #586380;
-        font-size: 0.95em;
-        line-height: 1.5;
-      }
-
-      /* Testimonial/Social Proof Section Styles (Renamed from placeholder) */
-      .testimonials {
-        padding: 70px 0;
-        text-align: center;
-        background-color: #fff; /* White background */
-        border-bottom: 1px solid #e0e0e0;
-      }
-      .testimonials h2 {
-        font-size: 2.2em;
-        margin-bottom: 20px;
-        color: #303545;
-      }
-      .testimonials p {
-        color: #586380;
-        max-width: 600px;
-        margin: 0 auto 40px auto;
-        font-size: 1.1em;
-      }
-      /* Add card styles later if needed */
-
-      /* Footer Styles */
-      footer {
-        padding: 60px 0 40px;
-        background-color: #303545; /* Quizlet Dark Blue/Gray */
-        color: #d9dde8; /* Lighter text for footer */
-        font-size: 0.95em;
-      }
-      .footer-container {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 15px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 30px;
-        text-align: left;
-      }
-      .footer-column h4 {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        color: #fff;
-        font-weight: 600;
-      }
-      .footer-column ul {
-        list-style: none;
-        padding: 0;
-      }
-      .footer-column ul li {
-        margin-bottom: 10px;
-      }
-      .footer-column ul li a {
-        color: #d9dde8;
-        transition: color 0.2s ease;
-      }
-      .footer-column ul li a:hover {
-        color: #fff;
-        text-decoration: underline;
-      }
-      .footer-bottom {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 1px solid #4a5066;
-        text-align: center;
-        font-size: 0.9em;
-        color: #a9b3d0;
-      }
-    </style>
+    </script>
+    <link rel="manifest" href="/manifest.json" />
   </head>
-  <body>
-    <header>
-      <div class="container">
-        <nav>
-          <div class="nav-left">
-            <div class="logo">Quizlet</div>
-            <!-- Simplified name -->
-            <div class="nav-links">
-              <a href="#">Home</a>
-              <a href="#">Subjects</a>
-              <a href="#">Flashcards</a>
-              <a href="#">Learn</a>
-              <a href="#">Solutions</a>
+  <body
+    class="font-sans leading-relaxed text-quizletDarkText bg-quizletLightBg"
+  >
+    <!-- Header -->
+    <header
+      class="bg-white py-3 border-b border-gray-200 sticky top-0 z-50 shadow-sm"
+    >
+      <div class="max-w-6xl mx-auto px-4">
+        <nav class="flex justify-between items-center">
+          <div class="flex items-center">
+            <div class="text-2xl font-bold text-quizletBlue mr-8">Quizlet</div>
+            <div class="hidden md:flex space-x-6">
+              <a
+                href="#"
+                class="text-quizletDarkText font-medium pb-1 border-b-2 border-transparent transition duration-200 hover:text-quizletBlue hover:border-quizletBlue"
+                >Home</a
+              >
+              <a
+                href="#"
+                class="text-quizletDarkText font-medium pb-1 border-b-2 border-transparent transition duration-200 hover:text-quizletBlue hover:border-quizletBlue"
+                >Subjects</a
+              >
+              <a
+                href="#"
+                class="text-quizletDarkText font-medium pb-1 border-b-2 border-transparent transition duration-200 hover:text-quizletBlue hover:border-quizletBlue"
+                >Flashcards</a
+              >
+              <a
+                href="#"
+                class="text-quizletDarkText font-medium pb-1 border-b-2 border-transparent transition duration-200 hover:text-quizletBlue hover:border-quizletBlue"
+                >Learn</a
+              >
+              <a
+                href="#"
+                class="text-quizletDarkText font-medium pb-1 border-b-2 border-transparent transition duration-200 hover:text-quizletBlue hover:border-quizletBlue"
+                >Solutions</a
+              >
             </div>
           </div>
-          <div class="auth-buttons">
-            <button class="login-btn">Log in</button>
-            <button class="signup-btn">Sign up</button>
+          <div class="flex items-center space-x-3">
+            <button
+              class="px-4 py-2 text-sm font-semibold rounded border border-quizletBorder text-quizletBlue bg-white transition duration-200 hover:bg-quizletLightBg"
+            >
+              Log in
+            </button>
+            <button
+              class="px-4 py-2 text-sm font-semibold rounded border border-quizletYellow bg-quizletYellow text-gray-900 transition duration-200 hover:bg-quizletDarkYellow hover:border-quizletDarkYellow"
+            >
+              Sign up
+            </button>
           </div>
         </nav>
       </div>
     </header>
 
     <main>
-      <section class="hero">
-        <div class="container">
-          <h1>Learning tools & flashcards, for free!</h1>
-          <p>
+      <!-- Hero Section -->
+      <section
+        class="py-20 md:py-24 text-center text-white bg-gradient-to-br from-quizletGradientStart to-quizletBlue"
+      >
+        <div class="max-w-6xl mx-auto px-4">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+            Learning tools & flashcards, for free!
+          </h1>
+          <p class="text-lg md:text-xl mb-10 max-w-2xl mx-auto opacity-90">
             Quizlet makes simple learning tools that let you study anything.
             Start learning today with flashcards, games and expert-written
             solutions.
           </p>
-          <button>Sign up for free</button>
+          <button
+            class="px-8 py-4 text-lg font-semibold rounded bg-quizletYellow text-gray-900 transition duration-200 hover:bg-quizletDarkYellow"
+          >
+            Sign up for free
+          </button>
         </div>
       </section>
 
       <!-- Added Feature Section -->
-      <section class="new-feature">
-        <div class="container">
-          <h2>
-            Introducing: <span class="highlight">Live Study Groups!</span> ✨
+      <section
+        class="py-16 md:py-20 bg-white text-center border-b border-gray-200"
+      >
+        <div class="max-w-6xl mx-auto px-4">
+          <h2
+            class="text-3xl md:text-4xl font-semibold mb-6 text-quizletDarkText"
+          >
+            Introducing:
+            <span
+              class="bg-gradient-to-t from-yellow-300 from-50% to-transparent to-50% px-1"
+              >Live Study Groups!</span
+            >
+            ✨
           </h2>
-          <p>
+          <p
+            class="text-base md:text-lg mb-8 max-w-3xl mx-auto text-quizletGrayText"
+          >
             Take your learning collaboration to the next level. Join or create
             real-time study sessions, share flashcard decks instantly, challenge
             friends with live quizzes, and track group progress together.
             Studying is better together!
           </p>
-          <button>Explore Live Groups</button>
+          <button
+            class="px-7 py-3 text-base font-semibold rounded bg-quizletBlue text-white transition duration-200 hover:bg-blue-800"
+          >
+            Explore Live Groups
+          </button>
         </div>
       </section>
 
       <!-- How it Works Section -->
-      <section class="how-it-works">
-        <div class="container">
-          <h2>How Quizlet Works</h2>
-          <div class="steps-container">
+      <section class="py-16 md:py-20 bg-quizletLightBg text-center">
+        <div class="max-w-6xl mx-auto px-4">
+          <h2
+            class="text-3xl md:text-4xl font-semibold mb-12 text-quizletDarkText"
+          >
+            How Quizlet Works
+          </h2>
+          <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div class="step">
-              <div class="step-icon">📚</div>
-              <!-- Placeholder Icon -->
-              <h3>Create study sets</h3>
-              <p>
+              <div class="text-4xl mb-4 text-quizletBlue">📚</div>
+              <h3 class="text-xl font-semibold mb-2 text-quizletDarkText">
+                Create study sets
+              </h3>
+              <p class="text-quizletGrayText text-sm leading-relaxed">
                 Start by creating a new study set with your terms and
                 definitions.
               </p>
             </div>
             <div class="step">
-              <div class="step-icon">🧠</div>
-              <!-- Placeholder Icon -->
-              <h3>Learn with modes</h3>
-              <p>
+              <div class="text-4xl mb-4 text-quizletBlue">🧠</div>
+              <h3 class="text-xl font-semibold mb-2 text-quizletDarkText">
+                Learn with modes
+              </h3>
+              <p class="text-quizletGrayText text-sm leading-relaxed">
                 Use Flashcards, Learn, Test, and Match modes to master your
                 material.
               </p>
             </div>
             <div class="step">
-              <div class="step-icon">🏆</div>
-              <!-- Placeholder Icon -->
-              <h3>Achieve your goals</h3>
-              <p>
+              <div class="text-4xl mb-4 text-quizletBlue">🏆</div>
+              <h3 class="text-xl font-semibold mb-2 text-quizletDarkText">
+                Achieve your goals
+              </h3>
+              <p class="text-quizletGrayText text-sm leading-relaxed">
                 Track your progress and conquer your learning objectives
                 effectively.
               </p>
@@ -386,66 +197,181 @@
       </section>
 
       <!-- Testimonials Section -->
-      <section class="testimonials">
-        <div class="container">
-          <h2>90% of students who use Quizlet report higher grades.</h2>
-          <p>
+      <section
+        class="py-16 md:py-20 text-center bg-white border-b border-gray-200"
+      >
+        <div class="max-w-6xl mx-auto px-4">
+          <h2
+            class="text-2xl md:text-3xl font-semibold mb-5 text-quizletDarkText"
+          >
+            90% of students who use Quizlet report higher grades.
+          </h2>
+          <p class="text-lg mb-10 max-w-2xl mx-auto text-quizletGrayText">
             Join millions of students using Quizlet's science-backed study tools
             to achieve their goals.
           </p>
-          <!-- Maybe add testimonial cards here later -->
+          <!-- Testimonial cards could go here -->
         </div>
       </section>
     </main>
 
-    <footer>
-      <div class="footer-container">
+    <!-- Footer -->
+    <footer
+      class="pt-16 pb-10 bg-quizletFooterBg text-quizletFooterText text-sm"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 text-left mb-10"
+      >
         <div class="footer-column">
-          <h4>Subjects</h4>
-          <ul>
-            <li><a href="#">Arts and Humanities</a></li>
-            <li><a href="#">Languages</a></li>
-            <li><a href="#">Math</a></li>
-            <li><a href="#">Science</a></li>
-            <li><a href="#">Social Science</a></li>
-            <li><a href="#">Other</a></li>
+          <h4 class="text-base font-semibold mb-4 text-white">Subjects</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Arts and Humanities</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Languages</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Math</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Science</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Social Science</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Other</a
+              >
+            </li>
           </ul>
         </div>
         <div class="footer-column">
-          <h4>Features</h4>
-          <ul>
-            <li><a href="#">Quizlet Live</a></li>
-            <li><a href="#">Quizlet Learn</a></li>
-            <li><a href="#">Flashcards</a></li>
-            <li><a href="#">Mobile</a></li>
-            <li><a href="#">Solutions</a></li>
+          <h4 class="text-base font-semibold mb-4 text-white">Features</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Quizlet Live</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Quizlet Learn</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Flashcards</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Mobile</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Solutions</a
+              >
+            </li>
           </ul>
         </div>
         <div class="footer-column">
-          <h4>Help</h4>
-          <ul>
-            <li><a href="#">Sign up</a></li>
-            <li><a href="#">Help Center</a></li>
-            <li><a href="#">Honor Code</a></li>
-            <li><a href="#">Community Guidelines</a></li>
+          <h4 class="text-base font-semibold mb-4 text-white">Help</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Sign up</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Help Center</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Honor Code</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Community Guidelines</a
+              >
+            </li>
           </ul>
         </div>
         <div class="footer-column">
-          <h4>Company</h4>
-          <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Advertise</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms</a></li>
+          <h4 class="text-base font-semibold mb-4 text-white">Company</h4>
+          <ul class="space-y-2">
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >About</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Press</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Careers</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Advertise</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Privacy</a
+              >
+            </li>
+            <li>
+              <a href="#" class="hover:text-quizletFooterHover hover:underline"
+                >Terms</a
+              >
+            </li>
           </ul>
         </div>
       </div>
-      <div class="footer-bottom">
+      <div
+        class="mt-10 pt-5 border-t border-quizletFooterBorder text-center text-xs text-quizletFooterMuted"
+      >
         &copy; 2024 Quizlet Replica Project. This is a demonstration and not
         affiliated with Quizlet Inc.
       </div>
     </footer>
+
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/sw.js")
+            .then((registration) => {
+              console.log(
+                "ServiceWorker registration successful with scope: ",
+                registration.scope
+              )
+            })
+            .catch((error) => {
+              console.log("ServiceWorker registration failed: ", error)
+            })
+        })
+      }
+    </script>
   </body>
 </html>
